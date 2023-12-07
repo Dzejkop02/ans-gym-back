@@ -5,7 +5,8 @@ const exercisesRouter = express.Router();
 
 exercisesRouter
     .get('/', async (req, res) => {
-        const exercisesList = await ExercisesRecord.findAll();
+        const {muscleId} = req.query;
+        const exercisesList = muscleId ? await ExercisesRecord.findAllWithFilter(muscleId) :  await ExercisesRecord.findAll();
 
         res.json({
             exercisesList,
