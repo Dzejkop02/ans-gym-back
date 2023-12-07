@@ -1,11 +1,20 @@
 const {Router} = require("express");
+const {MuscleRecord} = require("../records/muscle.record");
+const {ExercisesRecord} = require("../records/exercise.record");
 
 const homeRouter = Router();
 
 homeRouter
-    .get('/', (req, res) => {
-        console.log('Hello!');
-        res.json({message: 'Hello!'});
+    .get('/', async (req, res) => {
+        const [musclesList, exercisesList] = await Promise.all([
+            MuscleRecord.findAll(),
+            ExercisesRecord.findAll(),
+        ]);
+
+        res.json({
+            musclesList,
+            exercisesList,
+        });
     });
 
 module.exports = {
