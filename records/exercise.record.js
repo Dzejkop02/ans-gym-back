@@ -33,7 +33,7 @@ class ExerciseRecord {
             const supportedMuscles = await ExerciseRecord._getSupportedMuscles(result.id);
             return {...result, supportedMuscles};
         }))).filter(result => (result.primaryMuscleId === muscleId || result.supportedMuscles.find(el => el.id === muscleId)))
-            .sort((a, b) => a.primaryMuscleId === muscleId || b.primaryMuscleId !== muscleId ? -1 : 1)
+            .sort((a, b) => a.primaryMuscleId === muscleId && b.primaryMuscleId !== muscleId ? -1 : 1)
             .map(result => new ExerciseRecord({...result}));
     }
 
