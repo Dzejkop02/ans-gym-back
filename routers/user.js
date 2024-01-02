@@ -26,7 +26,7 @@ userRouter
 
         const foundUser = await UserRecord.find(userData.email);
 
-        if (foundUser && foundUser.length > 0) {
+        if (foundUser) {
             res.json({
                 ok: false,
                 error: 'Ten email jest już zajęty.'

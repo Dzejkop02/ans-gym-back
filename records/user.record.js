@@ -10,8 +10,8 @@ class UserRecord {
     }
 
     static async find(email) {
-        const [results] = await pool.execute('SELECT `email` FROM `users` WHERE `email` = :email;', {email});
-        return results.map(result => new UserRecord(result));
+        const [results] = await pool.execute('SELECT * FROM `users` WHERE `email` = :email;', {email});
+        return results[0] ? new UserRecord(results[0]) : null;
     }
 
     async save() {
