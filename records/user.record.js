@@ -7,10 +7,16 @@ class UserRecord {
         this.pwdHash = obj.pwdHash;
         this.firstName = obj.firstName;
         this.lastName = obj.lastName;
+        this.ticketName = obj?.ticketName;
     }
 
     static async find(email) {
         const [results] = await pool.execute('SELECT * FROM `users` WHERE `email` = :email;', {email});
+        return results[0] ? new UserRecord(results[0]) : null;
+    }
+
+    static async findToLogin(email, pwdHash) {
+        const [results] = await pool.execute('SELECT * FROM `users` WHERE `email` = :email AND `pwdHash` = :pwdHash;', {email, pwdHash});
         return results[0] ? new UserRecord(results[0]) : null;
     }
 
