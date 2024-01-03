@@ -10,7 +10,7 @@ authRouter
         const user = await UserRecord.findToLogin(req.body.email, hashPwd(req.body.password));
 
         if (!user) {
-            return res.json({ ok: false, error: 'Błędne dane logowania!' });
+            return res.json({ok: false, error: 'Błędne dane logowania!'});
         }
 
         const payload = {
@@ -24,7 +24,7 @@ authRouter
         const token = jwt.sign(payload,
             'asdf 43e#$%#$QF 43%$#DC #$%C#$Q% #$%C#$C54 rfaerf$@#FVSDfwerf4 f2w3fFWE',
             {expiresIn: 60 * 60 * 24},
-            );
+        );
 
         res
             .cookie('jwt', token, {
@@ -34,7 +34,15 @@ authRouter
             })
             .json({ok: true, user: payload});
     })
-    .get('/logout', (req, res) => {});
+    .get('/logout', (req, res) => {
+        res
+            .clearCookie('jwt', {
+                secure: false,
+                domain: 'localhost',
+                httpOnly: true,
+            })
+            .json({ok: true});
+    });
 
 module.exports = {
     authRouter,
