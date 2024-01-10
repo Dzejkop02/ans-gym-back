@@ -8,6 +8,10 @@ class UserRecord {
         this.firstName = obj.firstName;
         this.lastName = obj.lastName;
         this.ticketName = obj?.ticketName;
+        this.ticketUntil = obj?.ticketUntil;
+        if (this.ticketUntil instanceof Date && this.ticketUntil < new Date()) {
+            this.ticketUntil = null;
+        }
     }
 
     static async find(email) {

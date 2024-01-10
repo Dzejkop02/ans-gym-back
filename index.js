@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 const {homeRouter} = require('./routers/home.js');
 const {exercisesRouter} = require("./routers/exercise");
 const {muscleRouter} = require("./routers/muscle");
@@ -12,6 +13,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     // allowedHeaders: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));
+app.use(cookieParser());
 
 app.use(express.urlencoded({
     extended: true,

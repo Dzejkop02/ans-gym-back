@@ -10,7 +10,7 @@ authRouter
         const user = await UserRecord.findToLogin(req.body.email, hashPwd(req.body.password));
 
         if (!user) {
-            return res.json({ok: false, error: 'Błędne dane logowania!'});
+            return res.status(401).json({ok: false, error: 'Błędne dane logowania!'});
         }
 
         const payload = {
@@ -19,6 +19,7 @@ authRouter
             firstName: user.firstName,
             lastName: user.lastName,
             ticketName: user.ticketName,
+            ticketUntil: user.ticketUntil,
         }
 
         const token = jwt.sign(payload,
@@ -42,7 +43,29 @@ authRouter
                 httpOnly: true,
             })
             .json({ok: true});
-    });
+    })
+    .get('/', async (req, res) => {
+        const token = req.cookies.jwt;
+
+        if(!token) {
+            res.json({loggedIn: false});
+            return;
+        }
+
+        const data = await jwt.verify(token,
+            'asdf 43e#$%#$QF 43%$#DC #$%C#$Q% #$%C#$C54 rfaerf$@#FVSDfwerf4 f2w3fFWE',
+            );
+
+        res.json({
+            loggedIn: true,
+            id: data.id,
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            ticketName: data.ticketName,
+            ticketUntil: data.ticketUntil,
+        });
+    })
 
 module.exports = {
     authRouter,
