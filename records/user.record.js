@@ -32,6 +32,17 @@ class UserRecord {
             lastName: this.lastName,
         });
     }
+
+    async addTicket(ticketName, ticketUntil) {
+        await pool.execute('UPDATE `users` SET `ticketName` = :ticketName, `ticketUntil` = :ticketUntil WHERE `id` = :userId;', {
+            userId: this.id,
+            ticketName,
+            ticketUntil,
+        });
+
+        this.ticketName = ticketName;
+        this.ticketUntil = ticketUntil;
+    }
 }
 
 module.exports = {
